@@ -101,10 +101,10 @@ I wrote this after reaching a point of existential crisis after the sixth Excel 
 
 # Known Issues
 
-If your tray is overloaded in real life, the app will warn you.
+- If your tray is overloaded in real life, the app will warn you.
 Unfortunately it cannot stop your contractor from ignoring physics.
 
-PDF output cannot fix your project.
+- PDF output cannot fix your project.
 It can only document the pain.
 
 # Contributions
