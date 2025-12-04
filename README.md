@@ -26,23 +26,23 @@ Because you're a hacker man too cool for school.
 - #### Preset Cable & Tray Libraries  
 Includes common sizes, weights, and even 5-core cables because apparently the universe hates consistency.
 
-Custom Cable & Tray Input
+- #### Custom Cable & Tray Input
 For those special projects where the consultant sent you “final drawings” that contradict physics.
 
-Live Calculations
+- #### Live Calculations
 Weight per metre, allowable loading, structural utilisation, fill ratio…
 All computed instantly, accurately, and without Excel asking whether you’d like to “Enable Circular References.”
 
-Warnings
+- #### Warnings
 Loud, colourful warnings before gravity, Civil Defense, or your project manager destroy you.
 
-Save & Load Configurations
+- #### Save & Load Configurations
 Because nobody wants to rebuild a 40-row cable table from scratch every morning.
 
-PDF Export
+- #### PDF Export
 Generates a polished, professional-looking PDF report that almost convinces people you know what you’re doing.
 
-An “About” Box That Roasts You
+- #### A Questionable “About” Box 
 Written by Ash while actively losing faith in humanity.
 
 🖼️ Screenshot
