@@ -14,9 +14,9 @@ This is Ash’s Cable Tray Calculator, a desktop application created out of pure
 
 - and exactly one VLOOKUP that ruins your entire week.
 
-### If you’ve ever stared at a cable schedule thinking
-“Why do the gods hate me personally?”
-then congratulations — this app is for you.
+#### If you’ve ever stared at a cable schedule thinking
+#### “Why do the gods hate me personally?”
+#### then congratulations — this app is for you.
 
 # Features (aka things Excel should have done properly)
 
