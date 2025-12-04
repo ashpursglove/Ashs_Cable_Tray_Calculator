@@ -26,7 +26,7 @@ This is Ash’s Cable Tray Calculator, a desktop application created out of pure
 Because you're a hacker man too cool for school.
 
 - #### Preset Cable & Tray Libraries  
-Includes common sizes, weights, and even 5-core cables because apparently the universe hates consistency.
+Includes common sizes, weights, and even comms, coax and fiber jazz. Don't say I dont treat you!
 
 - #### Custom Cable & Tray Input
 For those special projects where the consultant sent you “final drawings” that contradict physics.
@@ -36,7 +36,7 @@ Weight per metre, allowable loading, structural utilisation, fill ratio…
 All computed instantly, accurately, and without Excel asking whether you’d like to “Enable Circular References.”
 
 - #### Warnings
-Loud, colourful warnings before gravity, Civil Defense, or your project manager destroy you.
+Loud, colourful warnings before gravity, Civil Defense, or your project manager rearrange your insides.
 
 - #### Save & Load Configurations
 Because nobody wants to rebuild a 40-row cable table from scratch every morning.
