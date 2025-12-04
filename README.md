@@ -1,6 +1,6 @@
 # Ash’s Cable Tray Calculator
 
-A desktop app nobody should ever need, yet here we are.  
+## A desktop app nobody should ever need, yet here we are.  
 
 <img width="998" height="683" alt="image" src="https://github.com/user-attachments/assets/ec4eb78e-7790-43c1-8462-a61b97381696" />
 
