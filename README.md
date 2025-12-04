@@ -45,10 +45,7 @@ Because nobody wants to rebuild a 40-row cable table from scratch every morning.
 Generates a polished, professional-looking PDF report that almost convinces people you know what you’re doing.
 
 - #### A Questionable “About” Box 
-Written by Ash while actively losing faith in humanity.
-
-<img width="998" height="683" alt="image" src="https://github.com/user-attachments/assets/ec4eb78e-7790-43c1-8462-a61b97381696" />
-
+Written by Ash while actively losing faith in humanity.  
 
 
 # Installation
