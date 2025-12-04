@@ -86,7 +86,7 @@ The app can export a structured, multi-page calculation report that includes:
 
 # Why Does This Exist?
 
-I wrote this after reaching a point of existential crisis after the sixth Excel cable tray calculator he encountered that:
+I wrote this after reaching a point of existential crisis after the sixth Excel cable tray calculator I encountered that:
 
 - Divided by zero,
 
