@@ -20,10 +20,10 @@ This is Ash’s Cable Tray Calculator, a desktop application created out of pure
 
 # Features (aka things Excel should have done properly)
 
-Dark Mode
-Because your retinas have suffered enough.
+- Dark Mode  
+Because you're a hacker man too cool for school.
 
-Preset Cable & Tray Libraries
+- Preset Cable & Tray Libraries  
 Includes common sizes, weights, and even 5-core cables because apparently the universe hates consistency.
 
 Custom Cable & Tray Input
