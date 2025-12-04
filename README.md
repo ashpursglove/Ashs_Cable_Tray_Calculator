@@ -97,8 +97,8 @@ Because Ash reached a point of existential crisis after the sixth Excel cable tr
 
 - And somehow weighed cables in kilograms per kilo-newton.
 
-#### A normal human being would have walked away.
-Ash instead wrote software.
+#### A normal sane and well put together human being would have walked away and taken up a hobby.
+#### I wrote this software.
 
 # Known Issues
 
