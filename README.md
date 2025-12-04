@@ -112,12 +112,12 @@ It can only document the pain.
 Pull requests are welcome.
 If you add new cable libraries, tray types, or improvements, that would be lovely.
 
-If you break something, Ash will judge you silently.
+If you break something, I will judge you silently.
 
 # Support the Project
 
 If this tool prevents even one meltdown — technical or emotional —
-you can repay Ash by sending beer, coffee, or therapy vouchers.
+I take payments in beer
 
 # License
 
