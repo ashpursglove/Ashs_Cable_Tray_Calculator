@@ -4,9 +4,9 @@ A desktop app nobody should ever need, yet here we are.
 
 # What Is This?
 
-This is Ash’s Cable Tray Calculator, a PyQt5 desktop application created out of pure, undiluted spite for Excel workbooks held together with:
+This is Ash’s Cable Tray Calculator, a desktop application created out of pure, undiluted spite for Excel workbooks held together with:
 
-decade-old formulas,
+- decade-old formulas,
 
 47 hidden sheets,
 
