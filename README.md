@@ -122,4 +122,4 @@ I take payments in beer
 # License
 
 MIT License.
-Use it, modify it, ship it, break it — just don’t blame Ash when gravity wins.
+Use it, modify it, ship it, break it — just don’t blame me when gravity wins.
