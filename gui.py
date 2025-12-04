@@ -1092,9 +1092,9 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
         text = (
             "<b>Ash's Cable Tray Calculator</b><br><br>"
-            "Ash made this steaming miracle of rage because if he had to fix one more "
+            "I made this steaming miracle of rage because if I had to fix one more "
             "cable tray Excel sheet held together with spiderwebs, dreams and duct tape "
-            "he was going to commit a hate crime.<br><br>"
+            "I was going to commit a hate crime.<br><br>"
             "Let’s be honest: if you're here, you've clearly fucked up somewhere in life.<br><br>"
             "Because nobody – <i>nobody</i> – wakes up dreaming about calculating cable tray "
             "loading like it’s the sexy part of engineering.<br><br>"
@@ -1108,7 +1108,7 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             "<li>One workbook tried so hard to divide by zero it's actually classed as a war crime.</li>"
             "</ul>"
             "<br>"
-            "So Ash snapped harder than Epstein in a cell and wrote this monstrosity instead:<br><br>"
+            "So I snapped harder than Epstein in a cell and wrote this monstrosity instead:<br><br>"
             "<ul>"
             "<li>Dark mode because your retinas are already cooked from years of fluorescent despair.</li>"
             "<li>Presets because nobody wants to measure cable diameters like a caveman.</li>"
@@ -1122,7 +1122,7 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             "Congratulations, champ.<br><br>"
             "If this app saves you from even one meltdown, one catastrophic miscalculation, "
             "or one supervisor breathing down your neck asking ‘is the tray okay?’ like a lost puppy,<br><br>"
-            "<b>Then Ash has done God's work and you owe him a beer!!</b>"
+            "<b>Then I have done God's work and you owe me a beer!!</b>"
         )
 
 
