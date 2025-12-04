@@ -24,7 +24,7 @@ This is Ash’s Cable Tray Calculator, a desktop application created out of pure
 # Features (aka things Excel should have done properly)
 
 - #### Dark Mode  
-Because you're a hacker man too cool for school.
+Because you're a hacker man who's too cool for school!
 
 - #### Preset Cable & Tray Libraries  
 Includes common sizes, weights, and even comms, coax and fiber jazz. Don't say I dont treat you!
