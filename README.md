@@ -63,7 +63,8 @@ Python 3.8+
 pip install pyqt5 reportlab
 
 ### Clone & Run
-git clone https://github.com/YOURNAME/cable-tray-calculator.git
+#### git clone  
+https://github.com/ashpursglove/Ashs_Cable_Tray_Calculator.git
 cd cable-tray-calculator
 python main.py
 
