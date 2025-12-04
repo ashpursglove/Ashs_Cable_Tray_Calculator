@@ -289,16 +289,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
         self.right_layout.addLayout(self.button_row)
 
-        # self.button_row = QtWidgets.QHBoxLayout()
-        # self.export_pdf_button = QtWidgets.QPushButton("Export PDF report")
-        # self.recalc_button = QtWidgets.QPushButton("Recalculate")
-
-        # self.button_row.addWidget(self.export_pdf_button)
-        # self.button_row.addStretch(1)
-        # self.button_row.addWidget(self.recalc_button)
-
-        # self.right_layout.addLayout(self.button_row)
-
 
         # Put left/right into splitter
         self.main_splitter.addWidget(self.cable_widget)
@@ -385,13 +375,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.tray_max_load_spin.valueChanged.connect(self.recalculate)
         self.tray_self_weight_spin.valueChanged.connect(self.recalculate)
 
-
-        # self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
-        # self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
-
-        # # self.recalc_button.clicked.connect(self.recalculate)
-        # self.recalc_button.clicked.connect(self.recalculate)
-        # self.export_pdf_button.clicked.connect(self._on_export_pdf_clicked)
 
         self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
         self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
