@@ -8,13 +8,13 @@ This is Ash’s Cable Tray Calculator, a desktop application created out of pure
 
 - decade-old formulas,
 
-47 hidden sheets,
+- 47 hidden sheets,
 
-merged cells created by an actual psychopath,
+- merged cells created by an actual psychopath,
 
-and exactly one VLOOKUP that ruins your entire week.
+- and exactly one VLOOKUP that ruins your entire week.
 
-If you’ve ever stared at a cable schedule thinking
+### If you’ve ever stared at a cable schedule thinking
 “Why do the gods hate me personally?”
 then congratulations — this app is for you.
 
