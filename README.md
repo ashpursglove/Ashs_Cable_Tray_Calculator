@@ -45,64 +45,59 @@ Generates a polished, professional-looking PDF report that almost convinces peop
 - #### A Questionable “About” Box 
 Written by Ash while actively losing faith in humanity.
 
-🖼️ Screenshot
+<img width="998" height="683" alt="image" src="https://github.com/user-attachments/assets/ec4eb78e-7790-43c1-8462-a61b97381696" />
 
-(Insert your GUI screenshot here once you have one)
+
 
 # Installation
-Requirements
+### Requirements
 
 Python 3.8+
 
 pip install pyqt5 reportlab
 
-Clone & Run
+### Clone & Run
 git clone https://github.com/YOURNAME/cable-tray-calculator.git
 cd cable-tray-calculator
 python main.py
 
 
-If it doesn’t run, it’s probably because:
+#### If it doesn’t run, it’s probably because:
 
-Python is cursed
+- Python is cursed
 
-Your PATH is haunted
+- Your PATH is haunted
 
-Or Windows has once again decided you don’t deserve nice things
+- Or Windows has once again decided you don’t deserve nice things
 
 # PDF Reports
 
 The app can export a structured, multi-page calculation report that includes:
 
-Tray configuration
+- Tray configuration
 
-Structural loading breakdown
+- Structural loading breakdown
 
-Cable areas & fill ratios
+- Cable areas & fill ratios
 
-Full cable table
+- Full cable table
 
-Colours, section headers, and other things Excel refuses to do without a blood sacrifice
+- Colours, section headers, and other things Excel refuses to do without a blood sacrifice
 
-When viewed in a browser, the tab even says:
-
-“Ash’s Tray Calculation Report”
-
-Because branding matters.
 
 # Why Does This Exist?
 
 Because Ash reached a point of existential crisis after the sixth Excel cable tray calculator he encountered that:
 
-Divided by zero,
+- Divided by zero,
 
-Referenced sheets that didn’t exist,
+- Referenced sheets that didn’t exist,
 
-Used merged cells “for aesthetic reasons,”
+- Used merged cells “for aesthetic reasons,”
 
-And somehow weighed cables in kilograms per kilo-newton.
+- And somehow weighed cables in kilograms per kilo-newton.
 
-A normal human being would have walked away.
+#### A normal human being would have walked away.
 Ash instead wrote software.
 
 # Known Issues
