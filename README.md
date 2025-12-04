@@ -54,8 +54,10 @@ and you feel your soul physically detach from your body.
 - #### A Questionable “About” Box 
 Written by me mid breakdown while actively losing faith in humanity.  
 
+# Installation if you're Simple  
+..... Theres an exe bro, just open it!
 
-# Installation
+# Installation if you're OG
 ### Requirements
 
 Python 3.8+
