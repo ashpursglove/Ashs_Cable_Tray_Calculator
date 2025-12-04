@@ -44,6 +44,12 @@ Because nobody wants to rebuild a 40-row cable table from scratch every morning.
 - #### PDF Export
 Generates a polished, professional-looking PDF report that almost convinces people you know what you’re doing.
 
+- #### CSV Export
+
+For when the project manager says
+“Can you send this in Excel?”
+and you feel your soul physically detach from your body.
+
 - #### A Questionable “About” Box 
 Written by me mid breakdown while actively losing faith in humanity.  
 

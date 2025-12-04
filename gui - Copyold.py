@@ -18,7 +18,6 @@ import os
 import math
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
-import csv
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -107,15 +106,10 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
         self.cable_layout.addWidget(self.cable_header_label)
 
-
         # Cable input form
         self.cable_form = QtWidgets.QFormLayout()
         self.cable_form.setLabelAlignment(QtCore.Qt.AlignRight)
         self.cable_form.setFormAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
-
-        # Cable name (for custom or library display)
-        self.cable_name_edit = QtWidgets.QLineEdit()
-        self.cable_name_edit.setPlaceholderText("Custom cable name")
 
         self.cable_combo = QtWidgets.QComboBox()
         self.cable_combo.setEditable(False)
@@ -134,12 +128,10 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.cable_quantity_spin.setRange(1, 9999)
         self.cable_quantity_spin.setValue(1)
 
-        self.cable_form.addRow("Name:", self.cable_name_edit)
         self.cable_form.addRow("Cable type:", self.cable_combo)
         self.cable_form.addRow("Diameter:", self.custom_cable_diameter_spin)
         self.cable_form.addRow("Weight:", self.custom_cable_weight_spin)
         self.cable_form.addRow("Quantity:", self.cable_quantity_spin)
-
 
         self.cable_layout.addLayout(self.cable_form)
 
@@ -180,17 +172,10 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.right_layout.setContentsMargins(0, 0, 0, 0)
         self.right_layout.setSpacing(8)
 
-
-
-
-
+        # Tray settings
         self.tray_group = QtWidgets.QGroupBox("Tray Configuration")
         self.tray_form = QtWidgets.QFormLayout(self.tray_group)
         self.tray_form.setLabelAlignment(QtCore.Qt.AlignRight)
-
-        # Tray name (for custom name or showing preset name)
-        self.tray_name_edit = QtWidgets.QLineEdit()
-        self.tray_name_edit.setPlaceholderText("Custom tray name")
 
         self.tray_combo = QtWidgets.QComboBox()
         self.tray_combo.setEditable(False)
@@ -221,7 +206,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.tray_fill_ratio_spin.setSingleStep(0.05)
         self.tray_fill_ratio_spin.setValue(0.6)
 
-        self.tray_form.addRow("Tray name:", self.tray_name_edit)
         self.tray_form.addRow("Tray type:", self.tray_combo)
         self.tray_form.addRow("Width:", self.tray_width_spin)
         self.tray_form.addRow("Side height:", self.tray_height_spin)
@@ -270,34 +254,15 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
 
         # Bottom-right controls: Export PDF + Recalculate
-
-
-
-
-
-
-        # Bottom-right controls: Export PDF / CSV + Recalculate
         self.button_row = QtWidgets.QHBoxLayout()
         self.export_pdf_button = QtWidgets.QPushButton("Export PDF report")
-        self.export_csv_button = QtWidgets.QPushButton("Export CSV")
         self.recalc_button = QtWidgets.QPushButton("Recalculate")
 
         self.button_row.addWidget(self.export_pdf_button)
-        self.button_row.addWidget(self.export_csv_button)
         self.button_row.addStretch(1)
         self.button_row.addWidget(self.recalc_button)
 
         self.right_layout.addLayout(self.button_row)
-
-        # self.button_row = QtWidgets.QHBoxLayout()
-        # self.export_pdf_button = QtWidgets.QPushButton("Export PDF report")
-        # self.recalc_button = QtWidgets.QPushButton("Recalculate")
-
-        # self.button_row.addWidget(self.export_pdf_button)
-        # self.button_row.addStretch(1)
-        # self.button_row.addWidget(self.recalc_button)
-
-        # self.right_layout.addLayout(self.button_row)
 
 
         # Put left/right into splitter
@@ -384,27 +349,12 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.tray_height_spin.valueChanged.connect(self.recalculate)
         self.tray_max_load_spin.valueChanged.connect(self.recalculate)
         self.tray_self_weight_spin.valueChanged.connect(self.recalculate)
-
-
-        # self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
-        # self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
-
-        # # self.recalc_button.clicked.connect(self.recalculate)
-        # self.recalc_button.clicked.connect(self.recalculate)
-        # self.export_pdf_button.clicked.connect(self._on_export_pdf_clicked)
-
         self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
         self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
 
+        # self.recalc_button.clicked.connect(self.recalculate)
         self.recalc_button.clicked.connect(self.recalculate)
         self.export_pdf_button.clicked.connect(self._on_export_pdf_clicked)
-        self.export_csv_button.clicked.connect(self._on_export_csv_clicked)
-
-
-
-
-
-
 
     def _populate_libraries(self) -> None:
         """Populate cable and tray combo boxes from the default libraries."""
@@ -515,22 +465,17 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
     # Event handlers
     # ------------------------------------------------------------------
 
-
     def _on_cable_combo_changed(self, index: int) -> None:
         """
-        Update name/diameter/weight fields when user selects a cable type.
+        Update diameter/weight fields when user selects a cable type.
 
-        Index 0 is "Custom cable..." so fields are editable and name is free text.
-        Other indices pull from the default cable library and lock fields + name.
+        Index 0 is "Custom cable..." so fields are editable.
+        Other indices pull from the default cable library and lock fields.
         """
         if index <= 0:
             # Custom cable
             self.custom_cable_diameter_spin.setReadOnly(False)
             self.custom_cable_weight_spin.setReadOnly(False)
-            self.cable_name_edit.setReadOnly(False)
-            # Don't forcibly clear name, user might be tweaking
-            if not self.cable_name_edit.text().strip():
-                self.cable_name_edit.setText("Custom cable")
             return
 
         cable_data = self.cable_combo.itemData(index)
@@ -540,19 +485,12 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             self.custom_cable_diameter_spin.setReadOnly(True)
             self.custom_cable_weight_spin.setReadOnly(True)
 
-            # Show the library name and lock it
-            self.cable_name_edit.setText(cable_data.name)
-            self.cable_name_edit.setReadOnly(True)
-
-
-
-
     def _on_tray_combo_changed(self, index: int) -> None:
         """
         Update tray fields when user selects a tray type.
 
-        Index 0 is "Custom tray..." so fields are editable and name is free text.
-        Other indices pull from the default tray library and lock fields + name.
+        Index 0 is "Custom tray..." so fields are editable.
+        Other indices pull from the default tray library and lock fields.
         """
         if index <= 0:
             # Custom tray
@@ -560,9 +498,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             self.tray_height_spin.setReadOnly(False)
             self.tray_max_load_spin.setReadOnly(False)
             self.tray_self_weight_spin.setReadOnly(False)
-            self.tray_name_edit.setReadOnly(False)
-            if not self.tray_name_edit.text().strip():
-                self.tray_name_edit.setText("Custom tray")
             return
 
         tray_data = self.tray_combo.itemData(index)
@@ -572,35 +507,22 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             self.tray_max_load_spin.setValue(tray_data.max_load_kg_per_m)
             self.tray_self_weight_spin.setValue(tray_data.self_weight_kg_per_m)
             self.tray_fill_ratio_spin.setValue(tray_data.max_fill_ratio)
-
             self.tray_width_spin.setReadOnly(True)
             self.tray_height_spin.setReadOnly(True)
             self.tray_max_load_spin.setReadOnly(True)
             self.tray_self_weight_spin.setReadOnly(True)
 
-            # Show the preset name and lock it
-            self.tray_name_edit.setText(tray_data.name)
-            self.tray_name_edit.setReadOnly(True)
-
         # Recompute when tray changes
         self.recalculate()
 
-
-
-
-
-
     def _on_add_cable_clicked(self) -> None:
         """Add a new cable entry to the table based on current input fields."""
-
         # Determine cable name
         index = self.cable_combo.currentIndex()
         if index <= 0:
-            cable_name = self.cable_name_edit.text().strip() or "Custom cable"
+            cable_name = "Custom cable"
         else:
-            # For library entries we keep the preset name (also reflected in the name edit)
-            cable_name = self.cable_name_edit.text().strip() or self.cable_combo.currentText()
-
+            cable_name = self.cable_combo.currentText()
 
         diameter = self.custom_cable_diameter_spin.value()
         weight = self.custom_cable_weight_spin.value()
@@ -711,13 +633,7 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
         This supports both library and custom tray configurations.
         """
-
-
-        # Prefer explicit name field; fall back to combo text or a generic label
-        tray_name = self.tray_name_edit.text().strip()
-        if not tray_name:
-            tray_name = self.tray_combo.currentText() or "Tray"
-
+        name = self.tray_combo.currentText() or "Tray"
         width = self.tray_width_spin.value()
         height = self.tray_height_spin.value()
         max_load = self.tray_max_load_spin.value()
@@ -725,15 +641,13 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         max_fill_ratio = self.tray_fill_ratio_spin.value()
 
         return TrayType(
-            name=tray_name,
+            name=name,
             width_mm=width,
             height_mm=height,
             max_load_kg_per_m=max_load,
             self_weight_kg_per_m=self_weight,
             max_fill_ratio=max_fill_ratio,
         )
-
-
 
     def recalculate(self) -> None:
         """
@@ -969,11 +883,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.tray_self_weight_spin.setValue(self_weight)
         self.tray_fill_ratio_spin.setValue(max_fill)
 
-
-        # Restore tray name into the editable field
-        self.tray_name_edit.setReadOnly(False)
-        self.tray_name_edit.setText(tray_cfg.get("name", "Custom tray"))
-
         # Optionally, show the loaded tray name in the window title
         tray_name = tray_cfg.get("name", "Custom tray")
         self.setWindowTitle(f"Cable Tray Calculator – {tray_name}")
@@ -1204,160 +1113,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             f"Tray calculation report has been saved to:\n{path}",
         )
 
-    # ------------------------------------------------------------------
-    # CSV export
-    # ------------------------------------------------------------------
-
-    def _on_export_csv_clicked(self) -> None:
-        """
-        Let the user choose a filename, then export tray config, summary
-        stats, and cable list as a CSV file.
-        """
-        cables_with_qty = self._collect_cables_from_table()
-        if not cables_with_qty:
-            QtWidgets.QMessageBox.warning(
-                self,
-                "Nothing to export",
-                "There are no cables defined in the tray. Add at least one cable "
-                "before exporting a CSV report.",
-            )
-            return
-
-        # Suggest a default filename
-        default_name = "tray_report.csv"
-        start_dir = self.current_config_path or os.getcwd()
-        default_path = os.path.join(start_dir, default_name)
-
-        path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self,
-            "Save tray calculation report as CSV",
-            default_path,
-            "CSV files (*.csv);;All files (*.*)",
-        )
-        if not path:
-            return
-
-        root, ext = os.path.splitext(path)
-        if not ext:
-            path = root + ".csv"
-
-        try:
-            self._export_csv_report(path)
-        except Exception as exc:
-            QtWidgets.QMessageBox.critical(
-                self,
-                "CSV export failed",
-                f"An error occurred while generating the CSV:\n{exc}",
-            )
-            return
-
-        QtWidgets.QMessageBox.information(
-            self,
-            "CSV created",
-            f"Tray calculation CSV report has been saved to:\n{path}",
-        )
-
-    def _export_csv_report(self, path: str) -> None:
-        """
-        Export the current tray configuration, summary statistics, and
-        cable list to a CSV file.
-
-        Structure is deliberately simple and Excel-friendly:
-        - A header block with tray info
-        - A summary block with key calculations
-        - A cable list table
-        """
-        cables_with_qty = self._collect_cables_from_table()
-        tray = self._build_tray_from_fields()
-        stats = compute_cable_tray_stats(cables_with_qty, tray)
-
-        total_cable_weight = stats["total_cable_weight_kg_per_m"]
-        tray_self_weight = stats["tray_self_weight_kg_per_m"]
-        total_weight = stats["total_weight_kg_per_m"]
-        allowable_load = stats["allowable_load_kg_per_m"]
-        struct_util_pct = stats["structural_utilisation_percent"]
-        cable_area = stats["total_cable_area_mm2"]
-        tray_area = stats["tray_usable_area_mm2"]
-        area_fill_pct = stats["area_fill_percent"]
-        area_fill_limit = stats["recommended_max_area_fill_percent"]
-
-        overloaded_struct = allowable_load > 0 and total_cable_weight > allowable_load
-        overloaded_area = area_fill_pct > area_fill_limit
-
-        # Status strings similar to what the GUI shows
-        if not cables_with_qty:
-            status_text = "No cables defined."
-        elif overloaded_struct and overloaded_area:
-            status_text = "OVERLOADED: structural + fill limits exceeded"
-        elif overloaded_struct:
-            status_text = "OVERLOADED: structural limit exceeded"
-        elif overloaded_area:
-            status_text = "WARNING: area fill above recommended limit"
-        else:
-            status_text = "OK: within structural and fill limits"
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Write CSV
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-
-            # Header / metadata block
-            writer.writerow(["Ash's Cable Tray Calculator CSV Report"])
-            writer.writerow([f"Generated at", timestamp])
-            writer.writerow([])
-
-            # Tray configuration
-            writer.writerow(["Tray configuration"])
-            writer.writerow(["Tray name", tray.name])
-            writer.writerow(["Width (mm)", f"{tray.width_mm:.1f}"])
-            writer.writerow(["Side height (mm)", f"{tray.height_mm:.1f}"])
-            writer.writerow(["Tray self weight (kg/m)", f"{tray.self_weight_kg_per_m:.3f}"])
-            writer.writerow(["Maximum allowable load (kg/m)", f"{tray.max_load_kg_per_m:.1f}"])
-            writer.writerow([
-                "Maximum fill ratio",
-                f"{tray.max_fill_ratio:.2f} (recommended {area_fill_limit:.1f} % area fill)",
-            ])
-            writer.writerow([])
-
-            # Summary stats
-            writer.writerow(["Summary"])
-            writer.writerow(["Cable weight (kg/m)", f"{total_cable_weight:.3f}"])
-            writer.writerow(["Tray self weight (kg/m)", f"{tray_self_weight:.3f}"])
-            writer.writerow(["Total weight (kg/m)", f"{total_weight:.3f}"])
-            writer.writerow(["Allowable load (kg/m)", f"{allowable_load:.1f}"])
-            writer.writerow(["Structural utilisation (%)", f"{struct_util_pct:.1f}"])
-            writer.writerow(["Total cable area (mm2)", f"{cable_area:,.0f}"])
-            writer.writerow(["Tray usable area (mm2)", f"{tray_area:,.0f}"])
-            writer.writerow(["Area fill (%)", f"{area_fill_pct:.1f}"])
-            writer.writerow(["Recommended max area fill (%)", f"{area_fill_limit:.1f}"])
-            writer.writerow(["Overall status", status_text])
-            writer.writerow([])
-
-            # Cables table
-            writer.writerow(["Cables in tray"])
-            writer.writerow([
-                "Cable name",
-                "Diameter (mm)",
-                "Weight (kg/m)",
-                "Quantity",
-                "Total weight (kg/m)",
-                "Total area (mm2)",
-            ])
-
-            for cable, qty in cables_with_qty:
-                total_w = cable.weight_kg_per_m * qty
-                radius_mm = cable.diameter_mm / 2.0
-                area_mm2 = math.pi * (radius_mm ** 2) * qty
-
-                writer.writerow([
-                    cable.name,
-                    f"{cable.diameter_mm:.1f}",
-                    f"{cable.weight_kg_per_m:.3f}",
-                    qty,
-                    f"{total_w:.3f}",
-                    f"{area_mm2:,.0f}",
-                ])
 
 
 
@@ -1644,6 +1399,36 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             y -= row_h
             row_index += 1
 
+
+        # # New page for cable table if needed
+        # y = ensure_space(y, 60 * mm)
+        # if y < height / 2:
+        #     c.showPage()
+        #     c.setTitle("Ash's Tray Calculation Report")
+        #     y = height - margin
+
+        # # Cable table section
+        # y = section_heading("Cables in Tray", y)
+
+        # # Table header
+        # headers = ["Cable", "Diameter (mm)", "Weight (kg/m)", "Qty", "Total (kg/m)", "Area (mm^2)"]
+        # col_widths = [60 * mm, 30 * mm, 30 * mm, 15 * mm, 30 * mm, 30 * mm]
+        # table_x = margin
+        # header_h = 7 * mm
+        # row_h = 6 * mm
+
+        # # Header background
+        # c.setFillColor(light_grey)
+        # c.rect(table_x, y - header_h, sum(col_widths), header_h, stroke=0, fill=1)
+        # c.setFillColor(black)
+        # c.setFont("Helvetica-Bold", 9)
+
+        # x = table_x + 2 * mm
+        # for i, htxt in enumerate(headers):
+        #     c.drawString(x, y - header_h + 2 * mm, htxt)
+        #     x += col_widths[i]
+
+        # y -= header_h
 
         # Table rows
         c.setFont("Helvetica", 8)

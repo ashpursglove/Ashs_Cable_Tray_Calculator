@@ -18,7 +18,6 @@ import os
 import math
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
-import csv
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -270,34 +269,15 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
 
 
         # Bottom-right controls: Export PDF + Recalculate
-
-
-
-
-
-
-        # Bottom-right controls: Export PDF / CSV + Recalculate
         self.button_row = QtWidgets.QHBoxLayout()
         self.export_pdf_button = QtWidgets.QPushButton("Export PDF report")
-        self.export_csv_button = QtWidgets.QPushButton("Export CSV")
         self.recalc_button = QtWidgets.QPushButton("Recalculate")
 
         self.button_row.addWidget(self.export_pdf_button)
-        self.button_row.addWidget(self.export_csv_button)
         self.button_row.addStretch(1)
         self.button_row.addWidget(self.recalc_button)
 
         self.right_layout.addLayout(self.button_row)
-
-        # self.button_row = QtWidgets.QHBoxLayout()
-        # self.export_pdf_button = QtWidgets.QPushButton("Export PDF report")
-        # self.recalc_button = QtWidgets.QPushButton("Recalculate")
-
-        # self.button_row.addWidget(self.export_pdf_button)
-        # self.button_row.addStretch(1)
-        # self.button_row.addWidget(self.recalc_button)
-
-        # self.right_layout.addLayout(self.button_row)
 
 
         # Put left/right into splitter
@@ -384,27 +364,12 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
         self.tray_height_spin.valueChanged.connect(self.recalculate)
         self.tray_max_load_spin.valueChanged.connect(self.recalculate)
         self.tray_self_weight_spin.valueChanged.connect(self.recalculate)
-
-
-        # self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
-        # self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
-
-        # # self.recalc_button.clicked.connect(self.recalculate)
-        # self.recalc_button.clicked.connect(self.recalculate)
-        # self.export_pdf_button.clicked.connect(self._on_export_pdf_clicked)
-
         self.tray_fill_ratio_spin.valueChanged.connect(self.recalculate)
         self.cable_table.itemChanged.connect(self._on_cable_table_item_changed)
 
+        # self.recalc_button.clicked.connect(self.recalculate)
         self.recalc_button.clicked.connect(self.recalculate)
         self.export_pdf_button.clicked.connect(self._on_export_pdf_clicked)
-        self.export_csv_button.clicked.connect(self._on_export_csv_clicked)
-
-
-
-
-
-
 
     def _populate_libraries(self) -> None:
         """Populate cable and tray combo boxes from the default libraries."""
@@ -1204,160 +1169,6 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             f"Tray calculation report has been saved to:\n{path}",
         )
 
-    # ------------------------------------------------------------------
-    # CSV export
-    # ------------------------------------------------------------------
-
-    def _on_export_csv_clicked(self) -> None:
-        """
-        Let the user choose a filename, then export tray config, summary
-        stats, and cable list as a CSV file.
-        """
-        cables_with_qty = self._collect_cables_from_table()
-        if not cables_with_qty:
-            QtWidgets.QMessageBox.warning(
-                self,
-                "Nothing to export",
-                "There are no cables defined in the tray. Add at least one cable "
-                "before exporting a CSV report.",
-            )
-            return
-
-        # Suggest a default filename
-        default_name = "tray_report.csv"
-        start_dir = self.current_config_path or os.getcwd()
-        default_path = os.path.join(start_dir, default_name)
-
-        path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self,
-            "Save tray calculation report as CSV",
-            default_path,
-            "CSV files (*.csv);;All files (*.*)",
-        )
-        if not path:
-            return
-
-        root, ext = os.path.splitext(path)
-        if not ext:
-            path = root + ".csv"
-
-        try:
-            self._export_csv_report(path)
-        except Exception as exc:
-            QtWidgets.QMessageBox.critical(
-                self,
-                "CSV export failed",
-                f"An error occurred while generating the CSV:\n{exc}",
-            )
-            return
-
-        QtWidgets.QMessageBox.information(
-            self,
-            "CSV created",
-            f"Tray calculation CSV report has been saved to:\n{path}",
-        )
-
-    def _export_csv_report(self, path: str) -> None:
-        """
-        Export the current tray configuration, summary statistics, and
-        cable list to a CSV file.
-
-        Structure is deliberately simple and Excel-friendly:
-        - A header block with tray info
-        - A summary block with key calculations
-        - A cable list table
-        """
-        cables_with_qty = self._collect_cables_from_table()
-        tray = self._build_tray_from_fields()
-        stats = compute_cable_tray_stats(cables_with_qty, tray)
-
-        total_cable_weight = stats["total_cable_weight_kg_per_m"]
-        tray_self_weight = stats["tray_self_weight_kg_per_m"]
-        total_weight = stats["total_weight_kg_per_m"]
-        allowable_load = stats["allowable_load_kg_per_m"]
-        struct_util_pct = stats["structural_utilisation_percent"]
-        cable_area = stats["total_cable_area_mm2"]
-        tray_area = stats["tray_usable_area_mm2"]
-        area_fill_pct = stats["area_fill_percent"]
-        area_fill_limit = stats["recommended_max_area_fill_percent"]
-
-        overloaded_struct = allowable_load > 0 and total_cable_weight > allowable_load
-        overloaded_area = area_fill_pct > area_fill_limit
-
-        # Status strings similar to what the GUI shows
-        if not cables_with_qty:
-            status_text = "No cables defined."
-        elif overloaded_struct and overloaded_area:
-            status_text = "OVERLOADED: structural + fill limits exceeded"
-        elif overloaded_struct:
-            status_text = "OVERLOADED: structural limit exceeded"
-        elif overloaded_area:
-            status_text = "WARNING: area fill above recommended limit"
-        else:
-            status_text = "OK: within structural and fill limits"
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Write CSV
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-
-            # Header / metadata block
-            writer.writerow(["Ash's Cable Tray Calculator CSV Report"])
-            writer.writerow([f"Generated at", timestamp])
-            writer.writerow([])
-
-            # Tray configuration
-            writer.writerow(["Tray configuration"])
-            writer.writerow(["Tray name", tray.name])
-            writer.writerow(["Width (mm)", f"{tray.width_mm:.1f}"])
-            writer.writerow(["Side height (mm)", f"{tray.height_mm:.1f}"])
-            writer.writerow(["Tray self weight (kg/m)", f"{tray.self_weight_kg_per_m:.3f}"])
-            writer.writerow(["Maximum allowable load (kg/m)", f"{tray.max_load_kg_per_m:.1f}"])
-            writer.writerow([
-                "Maximum fill ratio",
-                f"{tray.max_fill_ratio:.2f} (recommended {area_fill_limit:.1f} % area fill)",
-            ])
-            writer.writerow([])
-
-            # Summary stats
-            writer.writerow(["Summary"])
-            writer.writerow(["Cable weight (kg/m)", f"{total_cable_weight:.3f}"])
-            writer.writerow(["Tray self weight (kg/m)", f"{tray_self_weight:.3f}"])
-            writer.writerow(["Total weight (kg/m)", f"{total_weight:.3f}"])
-            writer.writerow(["Allowable load (kg/m)", f"{allowable_load:.1f}"])
-            writer.writerow(["Structural utilisation (%)", f"{struct_util_pct:.1f}"])
-            writer.writerow(["Total cable area (mm2)", f"{cable_area:,.0f}"])
-            writer.writerow(["Tray usable area (mm2)", f"{tray_area:,.0f}"])
-            writer.writerow(["Area fill (%)", f"{area_fill_pct:.1f}"])
-            writer.writerow(["Recommended max area fill (%)", f"{area_fill_limit:.1f}"])
-            writer.writerow(["Overall status", status_text])
-            writer.writerow([])
-
-            # Cables table
-            writer.writerow(["Cables in tray"])
-            writer.writerow([
-                "Cable name",
-                "Diameter (mm)",
-                "Weight (kg/m)",
-                "Quantity",
-                "Total weight (kg/m)",
-                "Total area (mm2)",
-            ])
-
-            for cable, qty in cables_with_qty:
-                total_w = cable.weight_kg_per_m * qty
-                radius_mm = cable.diameter_mm / 2.0
-                area_mm2 = math.pi * (radius_mm ** 2) * qty
-
-                writer.writerow([
-                    cable.name,
-                    f"{cable.diameter_mm:.1f}",
-                    f"{cable.weight_kg_per_m:.3f}",
-                    qty,
-                    f"{total_w:.3f}",
-                    f"{area_mm2:,.0f}",
-                ])
 
 
 
