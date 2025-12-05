@@ -240,8 +240,16 @@ class CableTrayCalculator(QtWidgets.QMainWindow):
             lbl = QtWidgets.QLabel("-")
             lbl.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
             mono_font = QtGui.QFont("Consolas")
+            if not mono_font.exactMatch():
+                mono_font = QtGui.QFont("Menlo")  # common on macOS
             mono_font.setPointSize(9)
             lbl.setFont(mono_font)
+
+
+
+            # mono_font = QtGui.QFont("Consolas")
+            # mono_font.setPointSize(9)
+            # lbl.setFont(mono_font)
             return lbl
 
         self.lbl_total_cable_weight = _make_result_label()
