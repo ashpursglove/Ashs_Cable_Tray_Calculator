@@ -62,12 +62,11 @@ Written by me mid breakdown while actively losing faith in humanity.
 
 Python 3.8+
 
-pip install -r requirements.txt
-
 ### Clone & Run
 #### git clone cmd  
 git clone https://github.com/ashpursglove/Ashs_Cable_Tray_Calculator.git  
-cd cable-tray-calculator
+pip install -r requirements.txt  
+cd cable-tray-calculator  
 python main.py
 
 
