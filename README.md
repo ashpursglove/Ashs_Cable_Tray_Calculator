@@ -55,14 +55,14 @@ and you feel your soul physically detach from your body.
 Written by me mid breakdown while actively losing faith in humanity.  
 
 # Installation if you're Simple  
-.....Theres an .exe bro, just open it!
+.....Theres an exe release bro, just open it!
 
 # Installation if you're OG
 ### Requirements
 
 Python 3.8+
 
-pip install pyqt5 reportlab
+pip install -r requirements.txt
 
 ### Clone & Run
 #### git clone cmd  
