@@ -65,7 +65,9 @@ Python 3.8+
 ### Clone & Run
 #### git clone cmd  
 git clone https://github.com/ashpursglove/Ashs_Cable_Tray_Calculator.git  
+  
 pip install -r requirements.txt  
+  
 cd cable-tray-calculator  
 python main.py
 
